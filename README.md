@@ -52,7 +52,7 @@
          .addInterceptor(new LoggerInterceptor())
           //其他配置
           .build();
-  OkHttpUtils.initClient(okHttpClient);
+   HttpCreator.init(Urls.URL_BASE_HOST, okHttpClient);
   ##其他用法示例
 
     /**

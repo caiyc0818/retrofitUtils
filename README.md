@@ -1,7 +1,6 @@
 # RetrofitUtils
 
-      Android Studio
-
+    Android Studio
     //retrofit
     compile 'com.squareup.okio:okio:1.14.0'
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
@@ -22,16 +21,13 @@
 
   配置RetrofitUtils
 
-  默认情况下，将直接使用okhttp默认的配置生成HttpCreator，如果你有任何配置，记得在Application中调用HttpCreator.init(Urls.URL_BASE_HOST, okHttpClient);
-方法进行设置。
-
   public class MyApplication extends Application
   {
   	@Override
       public void onCreate()
       {
           super.onCreate();
-
+          
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
                    .connectTimeout(20000L, TimeUnit.MILLISECONDS)
                    .readTimeout(20000L, TimeUnit.MILLISECONDS)
@@ -41,18 +37,6 @@
 
       }
   }
-
-  别忘了在AndroidManifest中设置。
-  相当于框架中只是提供了几个实现类，你可以自行定制或者选择使用。
-  对于Log
-
-  初始化HttpCreator时，通过设置拦截器实现，框架中提供了一个LoggerInterceptor，当然你可以自行实现一个Interceptor 。
-
-   OkHttpClient okHttpClient = new OkHttpClient.Builder()
-         .addInterceptor(new LoggerInterceptor())
-          //其他配置
-          .build();
-   HttpCreator.init(Urls.URL_BASE_HOST, okHttpClient);
   ##其他用法示例
 
     /**
@@ -210,9 +194,6 @@
      * @param view
      */
     public void upload(View view) {
-        TakePhotoUtils.getInstance().with(this).setTakePhotoCallback(new TakePhotoCallback() {
-            @Override
-            public void takeSuccess(File file) {
                 RetrofitUtils.upload()
                         .url("http://192.168.31.236/TruckAlliance/userInterface/v1/uploadBatch")
                         .addFiles("file", file)
@@ -259,17 +240,7 @@
                         });
             }
 
-            @Override
-            public void takeFail(String msg) {
-                toast("选择相册失败");
-            }
-
-            @Override
-            public void takeCancel() {
-                toast("选择相册取消");
-
-            }
-        }).chooseGallery();
+     
     }
 
     /**
@@ -349,18 +320,27 @@
 
 
 
-  取消所有请求
+  **取消所有请求**
+  
   RetrofitUtils.cancel();
 
-  根据tag取消请求
+  **根据tag取消请求**
+  
   目前对于支持的方法都添加了最后一个参数Object tag，取消则通过RetrofitUtils.cancelTag(tag)执行。
 
+
   例如：在Activity中，当Activity销毁取消请求：
+  
   @Override
+  
   protected void onDestroy()
+  
   {
+  
       super.onDestroy();
+      
       //可以取消同一个tag的
+      
      RetrofitUtils.cancelTag(this);//取消以Activity.this作为tag的请求
   }
 
@@ -369,13 +349,18 @@
 
 # OkHttp3
 -dontwarn okhttp3.logging.**
+
 -keep class okhttp3.internal.**{*;}
+
 -dontwarn okio.**
 
  # Retrofit
 -dontwarn retrofit2.**
+
 -keep class retrofit2.** { *; }
+
 -keepattributes Signature
+
 -keepattributes Exceptions
 
 
